@@ -1,0 +1,11 @@
+# Binary
+bin/
+bin-int/
+
+# Linux
+Makefile
+
+# Windows
+*.sln
+*.vcxproj*
+.vs
