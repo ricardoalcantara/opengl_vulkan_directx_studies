@@ -2,27 +2,33 @@ cmake_minimum_required(VERSION 3.0)
 
 project(LearnOpenGL)
 
+set(VENDOR "../vendor")
+
+set(CMAKE_CXX_STANDARD 11)
+
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
-add_subdirectory(../vendor/glfw glfw)
+add_subdirectory(${VENDOR}/glfw glfw)
 
 add_subdirectory(vendor/glad)
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
     if(NOT WIN32)
         set(GLAD_LIBRARIES dl)
     endif()
 endif()
 
 include_directories(src/
-                    ../vendor/glfw/include/
+                    ${VENDOR}/glfw/include/
+                    ${VENDOR}/stb/
                     vendor/glad/include/)
 
-file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
+file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c
+                          ${VENDOR}/stb/stb_image.h)
 file(GLOB PROJECT_HEADERS src/*.hpp)
 file(GLOB PROJECT_SOURCES src/*.cpp)
 
