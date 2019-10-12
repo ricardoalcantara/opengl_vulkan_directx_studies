@@ -20,6 +20,24 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
+        {
+            "label": "Generate CMake Windows",
+            "type": "shell",
+            "command": "cmake -G \"Visual Studio 16 2019\" -Bbuild",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build CMake Any",
+            "type": "shell",
+            "command": "cmake --build build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
     ]
 }

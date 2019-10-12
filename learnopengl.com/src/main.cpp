@@ -123,6 +123,14 @@ int main()
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+        GLfloat scale = (sin(timeValue) / 2) + 1.0f;
+        trans = glm::mat4(1.0f); 
+        trans = glm::translate(trans, glm::vec3(-0.5, 0.5, 0.0));
+        trans = glm::rotate(trans, timeValue, glm::vec3(0.0, 0.0, 1.0));
+        trans = glm::scale(trans, glm::vec3(scale, scale, scale));  
+        shader.SetMat4("transform", trans);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
