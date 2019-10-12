@@ -10,6 +10,7 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(${VENDOR}/glfw glfw)
 
+option(GLM_TEST_ENABLE OFF)
 add_subdirectory(${VENDOR}/glm glm)
 
 find_package(Vulkan)

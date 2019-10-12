@@ -11,6 +11,9 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(${VENDOR}/glfw glfw)
 
+option(GLM_TEST_ENABLE OFF)
+add_subdirectory(${VENDOR}/glm glm)
+
 add_subdirectory(vendor/glad)
 
 if(MSVC)
@@ -25,6 +28,7 @@ endif()
 include_directories(src/
                     ${VENDOR}/glfw/include/
                     ${VENDOR}/stb/
+                    ${VENDOR}/glm
                     vendor/glad/include/)
 
 file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c
