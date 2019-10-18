@@ -27,7 +27,8 @@ endif()
 include_directories(src/
                     ${VENDOR}/glfw/include/
                     ${VENDOR}/glm
-                    ${Vulkan_INCLUDE_DIRS})
+                    ${Vulkan_INCLUDE_DIRS}
+                    ../common)
 
 # file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
 file(GLOB PROJECT_HEADERS src/*.hpp)
