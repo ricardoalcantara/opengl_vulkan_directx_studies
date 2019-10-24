@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/bin/Drawing_a_triangle",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/Drawing_a_triangle",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
