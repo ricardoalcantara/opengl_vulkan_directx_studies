@@ -8,7 +8,7 @@
             "name": "Drawing_a_triangle (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/Drawing_a_triangle",
+            "program": "${workspaceFolder}/Drawing_a_triangle/bin/Drawing_a_triangle",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Drawing_a_triangle",
