@@ -23,6 +23,17 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Drawing_a_triangle/bin/Drawing_a_triangle",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Drawing_a_triangle",
+            "environment": [],
+            "externalConsole": false
+        },
     ]
 }
