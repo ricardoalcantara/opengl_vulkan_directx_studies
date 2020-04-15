@@ -1,4 +1,3 @@
-
 /******************************************************************************************
 *	Chili Direct3D Engine																  *
 *	Copyright 2018 PlanetChili <http://www.planetchili.net>								  *
@@ -18,34 +17,44 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
 ******************************************************************************************/
-#include "App.h"
+#include "ChiliException.h"
+#include <sstream>
 
 
-#ifdef NDEBUG
-int CALLBACK WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR     lpCmdLine,
-	int       nCmdShow )
-#else
-int main()
-#endif
+ChiliException::ChiliException( int line,const char* file ) noexcept
+	:
+	line( line ),
+	file( file )
+{}
+
+const char* ChiliException::what() const noexcept
 {
-	try
-	{
-		return App{}.Go();
-	}
-	catch( const ChiliException& e )
-	{
-		MessageBox( nullptr,e.what(),e.GetType(),MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( const std::exception& e )
-	{
-		MessageBox( nullptr,e.what(),"Standard Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( ... )
-	{
-		MessageBox( nullptr,"No details available","Unknown Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	return -1;
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* ChiliException::GetType() const noexcept
+{
+	return "Chili Exception";
+}
+
+int ChiliException::GetLine() const noexcept
+{
+	return line;
+}
+
+const std::string& ChiliException::GetFile() const noexcept
+{
+	return file;
+}
+
+std::string ChiliException::GetOriginString() const noexcept
+{
+	std::ostringstream oss;
+	oss << "[File] " << file << std::endl
+		<< "[Line] " << line;
+	return oss.str();
 }

@@ -1,4 +1,3 @@
-
 /******************************************************************************************
 *	Chili Direct3D Engine																  *
 *	Copyright 2018 PlanetChili <http://www.planetchili.net>								  *
@@ -18,34 +17,22 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
 ******************************************************************************************/
-#include "App.h"
+#pragma once
+#include <exception>
+#include <string>
 
-
-#ifdef NDEBUG
-int CALLBACK WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR     lpCmdLine,
-	int       nCmdShow )
-#else
-int main()
-#endif
+class ChiliException : public std::exception
 {
-	try
-	{
-		return App{}.Go();
-	}
-	catch( const ChiliException& e )
-	{
-		MessageBox( nullptr,e.what(),e.GetType(),MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( const std::exception& e )
-	{
-		MessageBox( nullptr,e.what(),"Standard Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( ... )
-	{
-		MessageBox( nullptr,"No details available","Unknown Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	return -1;
-}
+public:
+	ChiliException( int line,const char* file ) noexcept;
+	const char* what() const noexcept override;
+	virtual const char* GetType() const noexcept;
+	int GetLine() const noexcept;
+	const std::string& GetFile() const noexcept;
+	std::string GetOriginString() const noexcept;
+private:
+	int line;
+	std::string file;
+protected:
+	mutable std::string whatBuffer;
+};

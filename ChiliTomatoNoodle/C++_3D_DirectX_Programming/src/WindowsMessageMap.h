@@ -1,4 +1,3 @@
-
 /******************************************************************************************
 *	Chili Direct3D Engine																  *
 *	Copyright 2018 PlanetChili <http://www.planetchili.net>								  *
@@ -18,34 +17,15 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
 ******************************************************************************************/
-#include "App.h"
+#pragma once
+#include <unordered_map>
+#include "ChiliWin.h"
 
-
-#ifdef NDEBUG
-int CALLBACK WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR     lpCmdLine,
-	int       nCmdShow )
-#else
-int main()
-#endif
+class WindowsMessageMap
 {
-	try
-	{
-		return App{}.Go();
-	}
-	catch( const ChiliException& e )
-	{
-		MessageBox( nullptr,e.what(),e.GetType(),MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( const std::exception& e )
-	{
-		MessageBox( nullptr,e.what(),"Standard Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	catch( ... )
-	{
-		MessageBox( nullptr,"No details available","Unknown Exception",MB_OK | MB_ICONEXCLAMATION );
-	}
-	return -1;
-}
+public:
+	WindowsMessageMap() noexcept;
+	std::string operator()( DWORD msg,LPARAM lp,WPARAM wp ) const noexcept;
+private:
+	std::unordered_map<DWORD,std::string> map;
+};

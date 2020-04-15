@@ -36,6 +36,13 @@ if(CMAKE_BUILD_TYPE MATCHES Release)
     set(CMAKE_WIN32_EXECUTABLE ON)
 endif()
 
-add_executable(${PROJECT_NAME} src/WinMain.cpp)
+file(GLOB PROJECT_HEADERS
+        src/*.h)
+file(GLOB PROJECT_SOURCES
+        src/*.cpp)
+
+add_executable(${PROJECT_NAME}
+                ${PROJECT_SOURCES}
+                ${PROJECT_HEADERS})
 
 target_link_libraries(${PROJECT_NAME} ${WinSDK} d3d11)
