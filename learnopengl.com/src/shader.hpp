@@ -15,8 +15,9 @@ class Shader
 {
 public:
     GLuint ID;
+
 public:
-    Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
+    Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     {
         std::string vertexCode, fragmentCode;
         std::ifstream vShaderFile, fShaderFile;
@@ -38,13 +39,13 @@ public:
             vertexCode = vShaderStream.str();
             fragmentCode = fShaderStream.str();
         }
-        catch(const std::ifstream::failure &e)
+        catch (const std::ifstream::failure &e)
         {
             std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << e.what() << '\n';
         }
 
-        const char* vShaderCode = vertexCode.c_str();
-        const char* fShaderCode = fragmentCode.c_str();
+        const char *vShaderCode = vertexCode.c_str();
+        const char *fShaderCode = fragmentCode.c_str();
 
         GLuint vertex, fragment;
         GLint success;
@@ -57,7 +58,8 @@ public:
         if (!success)
         {
             glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-            std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+            std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
         }
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fShaderCode, NULL);
@@ -66,9 +68,10 @@ public:
         if (!success)
         {
             glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-            std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+            std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
         }
-        
+
         ID = glCreateProgram();
         glAttachShader(ID, vertex);
         glAttachShader(ID, fragment);
@@ -77,7 +80,8 @@ public:
         if (!success)
         {
             glGetProgramInfoLog(ID, 512, NULL, infoLog);
-            std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+            std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
+                      << infoLog << std::endl;
         }
 
         glDeleteShader(vertex);
@@ -91,7 +95,7 @@ public:
 
     void SetBool(const std::string &name, GLboolean value) const
     {
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (GLint) value);
+        glUniform1i(glGetUniformLocation(ID, name.c_str()), (GLint)value);
     }
     void SetInt(const std::string &name, GLint value) const
     {
@@ -101,7 +105,7 @@ public:
     {
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
     }
-    void SetFloat(const std::string &name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) const
+    void SetFloat(const std::string &name, GLfloat x, GLfloat y, GLfloat, GLfloat w) const
     {
         glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, x, w);
     }

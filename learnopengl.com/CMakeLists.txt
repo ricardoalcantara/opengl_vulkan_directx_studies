@@ -3,36 +3,21 @@ cmake_minimum_required(VERSION 3.0)
 project(LearnOpenGL)
 
 set(VENDOR "../vendor")
-
 set(CMAKE_CXX_STANDARD 11)
 
-option(GLFW_BUILD_DOCS OFF)
-option(GLFW_BUILD_EXAMPLES OFF)
-option(GLFW_BUILD_TESTS OFF)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR}/glfw glfw)
 
-option(GLM_TEST_ENABLE OFF)
+set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
+set(GLM_ENABLE_CXX_11 ON CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR}/glm glm)
+
+add_subdirectory(${VENDOR}/stb stb)
 
 add_subdirectory(vendor/glad)
 
-if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
-    if(NOT WIN32)
-        set(GLAD_LIBRARIES dl)
-    endif()
-endif()
-
-include_directories(src/
-                    ${VENDOR}/glfw/include/
-                    ${VENDOR}/stb/
-                    ${VENDOR}/glm
-                    vendor/glad/include/)
-
-file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c
-                          ${VENDOR}/stb/stb_image.h)
 file(GLOB PROJECT_HEADERS src/*.hpp)
 file(GLOB PROJECT_SOURCES src/*.cpp)
 
@@ -45,8 +30,26 @@ source_group("Vendors" FILES ${VENDORS_SOURCES})
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
-                               ${VENDORS_SOURCES})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
-target_link_libraries(${PROJECT_NAME} glfw
-                      ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+
+target_include_directories(${PROJECT_NAME} 
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME}
+PRIVATE
+    glm
+    glfw
+    GLAD
+    stb_image
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${CMAKE_DL_LIBS}>
+)
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic> # -Werror
+)
