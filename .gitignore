@@ -1,5 +1,6 @@
 bin/
 build/
+build-*/
 .vs/
 .idea/
-cmake-build-debug/
+cmake-build-*/
